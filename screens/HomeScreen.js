@@ -16,7 +16,8 @@ import { Feather } from '@expo/vector-icons';
 import Carousel from '../components/Carousel';
 import Services from '../components/Services';
 import DressItem from '../components/DressItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../ProductReducer';
 
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cart);
@@ -94,6 +95,20 @@ const HomeScreen = () => {
     }
   };
 
+  // PRODUCTS SERVICES
+  const product = useSelector((state) => state.product.product);
+  // console.log('product array: ', product);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (product.length > 0) return;
+
+    const fetchProduct = () => {
+      services.map((service) => dispatch(getProduct(service)));
+    };
+    fetchProduct();
+  }, []);
+  console.log(product);
+
   const services = [
     {
       id: '0',
@@ -164,7 +179,7 @@ const HomeScreen = () => {
           <Image
             style={{ width: 40, height: 40, borderRadius: 20 }}
             source={{
-              uri: 'https://lh3.googleusercontent.com/a/ACg8ocKBo45pI68g1Gkf_bCNqjEzqylYIlJrF35_gOiPqoKjDj8=s288-c-no',
+              uri: 'https://lh3.googleusercontent.com/a/ACg8ocJmY3usSzAvrGgyE7RseKXvrEkl7T0_wa20rf8sEZxrWtU=s576-c-no',
             }}
           />
         </Pressable>
@@ -198,7 +213,7 @@ const HomeScreen = () => {
       <Services />
 
       {/* RENDER ALL PRODUCTS */}
-      {services.map((item, index) => (
+      {product.map((item, index) => (
         <DressItem
           item={item}
           key={index}

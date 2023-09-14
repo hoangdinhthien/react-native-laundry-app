@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { SliderBox } from "react-native-image-slider-box";
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { SliderBox } from 'react-native-image-slider-box';
 
 const Carousel = () => {
   const images = [
-    "https://cdnb.artstation.com/p/assets/images/images/066/000/955/large/wlop-25-1se.jpg?1691765242",
-    "https://cdna.artstation.com/p/assets/images/images/062/758/394/large/wlop-8se.jpg?1683875017",
+    'https://cdnb.artstation.com/p/assets/images/images/066/000/955/large/wlop-25-1se.jpg?1691765242',
+    'https://cdna.artstation.com/p/assets/images/images/062/758/394/large/wlop-8se.jpg?1683875017',
   ];
 
   return (
@@ -14,9 +14,9 @@ const Carousel = () => {
         images={images}
         autoPlay
         circleLoop
-        dotColor={"#13274F"}
-        inactiveDotColor="#90A4AE"
-        ImageComponentStyle={{ borderRadius: 6, width: "94%" }}
+        dotColor={'#13274F'}
+        inactiveDotColor='#90A4AE'
+        ImageComponentStyle={{ borderRadius: 6, width: '94%' }}
       />
     </View>
   );

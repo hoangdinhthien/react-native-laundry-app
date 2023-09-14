@@ -1,7 +1,12 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 const DressItem = ({ item }) => {
+  const dispatch = useDispatch();
+  const addItemToCart = () => {
+    dispatch(addToCart(item)); //CART
+  };
   return (
     <View>
       <Pressable
@@ -44,7 +49,10 @@ const DressItem = ({ item }) => {
           </Text>
         </View>
 
-        <Pressable style={{ width: 80 }}>
+        <Pressable
+          onPress={addItemToCart}
+          style={{ width: 80 }}
+        >
           <Text
             style={{
               borderColor: 'gray',
