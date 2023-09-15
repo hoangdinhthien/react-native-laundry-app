@@ -48,27 +48,27 @@ const PickUpScreen = () => {
   const times = [
     {
       id: '0',
-      time: '11:00 PM',
+      time: '11:00PM',
     },
     {
       id: '1',
-      time: '12:00 PM',
+      time: '12:00PM',
     },
     {
       id: '2',
-      time: '1:00 PM',
+      time: '1:00PM',
     },
     {
       id: '3',
-      time: '2:00 PM',
+      time: '2:00PM',
     },
     {
       id: '4',
-      time: '3:00 PM',
+      time: '3:00PM',
     },
     {
       id: '5',
-      time: '4:00 PM',
+      time: '4:00PM',
     },
   ];
 
@@ -137,25 +137,19 @@ const PickUpScreen = () => {
             <Pressable
               key={index}
               onPress={() => setSelectedTime(item.time)}
-              style={
-                selectedTime.includes(item.time)
-                  ? {
-                      margin: 10,
-                      borderRadius: 8,
-                      padding: 15,
-                      borderColor: 'red',
-                      borderWidth: 1,
-                    }
-                  : {
-                      margin: 10,
-                      borderRadius: 8,
-                      padding: 15,
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                    }
-              }
+              style={{
+                margin: 10,
+                borderRadius: 8,
+                padding: 15,
+                borderColor: selectedTime === item.time ? 'red' : 'gray',
+                borderWidth: 1,
+              }}
             >
-              <Text>{item.time}</Text>
+              <Text
+                style={{ color: selectedTime === item.time ? 'red' : 'black' }}
+              >
+                {item.time}
+              </Text>
             </Pressable>
           ))}
         </ScrollView>
