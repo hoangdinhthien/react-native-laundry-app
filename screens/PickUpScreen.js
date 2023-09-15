@@ -85,7 +85,7 @@ const PickUpScreen = () => {
       ]);
     }
     if (selectedDate && selectedTime && delivery) {
-      navigation.navigate('');
+      navigation.replace('Cart');
     }
   };
 
@@ -166,23 +166,13 @@ const PickUpScreen = () => {
             <Pressable
               key={i}
               onPress={() => setDelivery(item.name)}
-              style={
-                delivery.includes(item.name)
-                  ? {
-                      margin: 10,
-                      borderRadius: 8,
-                      padding: 15,
-                      borderColor: 'red',
-                      borderWidth: 1,
-                    }
-                  : {
-                      margin: 10,
-                      borderRadius: 8,
-                      padding: 15,
-                      borderColor: 'gray',
-                      borderWidth: 1,
-                    }
-              }
+              style={{
+                margin: 10,
+                borderRadius: 8,
+                padding: 15,
+                borderColor: delivery === item.name ? 'red' : 'gray',
+                borderWidth: 1,
+              }}
             >
               <Text>{item.name}</Text>
             </Pressable>
