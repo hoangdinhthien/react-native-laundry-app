@@ -85,13 +85,17 @@ const PickUpScreen = () => {
       ]);
     }
     if (selectedDate && selectedTime && delivery) {
-      navigation.replace('Cart');
+      navigation.replace('Cart', {
+        pickUpDate: selectedDate,
+        selectedTime: selectedTime,
+        no_Of_days: delivery,
+      });
     }
   };
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={{ marginTop: 50 }}>
         <Text style={{ fontSize: 15, fontWeight: '600', marginHorizontal: 10 }}>
           Enter Address
         </Text>
