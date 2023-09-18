@@ -6,18 +6,45 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const navigation = useNavigation();
+
+  const register = () => {
+    if (email === '' || password === '' || phone === '') {
+      Alert.alert(
+        'Invalid Details',
+        'Please fill in all the details',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false }
+      );
+    }
+    createUserWithEmailAndPassword(auth, email, password).then(
+      (userCredential) => {
+        console.log('user credential ', userCredential);
+      }
+    );
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -125,6 +152,7 @@ const RegisterScreen = () => {
           </View>
 
           <Pressable
+            onPress={register}
             style={{
               width: 200,
               backgroundColor: '#318CE7',
