@@ -41,6 +41,14 @@ const RegisterScreen = () => {
     createUserWithEmailAndPassword(auth, email, password).then(
       (userCredential) => {
         console.log('user credential ', userCredential);
+        const user = userCredential._tokenResponse.email;
+        const myUserId = auth.currentUser.uid;
+
+        setDoc(doc(db, 'users', `${myUserId}`)),
+          {
+            email: user,
+            phone: phone,
+          };
       }
     );
   };
@@ -138,7 +146,6 @@ const RegisterScreen = () => {
               placeholder='Phone No'
               value={phone}
               onChangeText={(text) => setPhone(text)}
-              secureTextEntry={true}
               placeholderTextColor={'black'}
               style={{
                 fontSize: phone ? 18 : 18,
