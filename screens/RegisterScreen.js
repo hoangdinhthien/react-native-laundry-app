@@ -14,7 +14,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -42,13 +43,12 @@ const RegisterScreen = () => {
       (userCredential) => {
         console.log('user credential ', userCredential);
         const user = userCredential._tokenResponse.email;
-        const myUserId = auth.currentUser.uid;
+        const myUserUid = auth.currentUser.uid;
 
-        setDoc(doc(db, 'users', `${myUserId}`)),
-          {
-            email: user,
-            phone: phone,
-          };
+        setDoc(doc(db, 'users', `${myUserUid}`), {
+          email: user,
+          phone: phone,
+        });
       }
     );
   };
