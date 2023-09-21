@@ -178,7 +178,9 @@ const PickUpScreen = () => {
                 borderWidth: 1,
               }}
             >
-              <Text>{item.name}</Text>
+              <Text style={{ color: delivery === item.name ? 'red' : 'black' }}>
+                {item.name}
+              </Text>
             </Pressable>
           ))}
         </ScrollView>
