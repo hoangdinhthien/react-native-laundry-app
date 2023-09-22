@@ -20,6 +20,7 @@
     "expo-status-bar": "~1.6.0",
     "firebase": "^10.4.0",
     "jalali-moment": "^3.3.11",
+    "lottie-react-native": "^6.3.1",
     "moment-jalaali": "^0.10.0",
     "react": "18.2.0",
     "react-native": "0.72.4",

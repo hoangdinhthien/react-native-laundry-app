@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../ProductReducer';
 import { useNavigation } from '@react-navigation/native';
 import { db } from '../firebase';
-import { collection, getDoc, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cart);
