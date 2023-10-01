@@ -1,0 +1,29 @@
+{
+   "name": "laundry-middle-platform-web-server",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "nodemon index"
+   },
+   "author": "Nhom4",
+   "license": "MMA",
+   "dependencies": {
+      "bcrypt": "^5.1.0",
+      "body-parser": "^1.20.2",
+      "cors": "^2.8.5",
+      "dotenv": "^16.3.1",
+      "express": "^4.18.2",
+      "jsonwebtoken": "^9.0.0",
+      "mongodb": "^5.6.0",
+      "mongoose": "^7.3.0",
+      "multer": "^1.4.5-lts.1",
+      "nodemon": "^3.0.0",
+      "passport": "^0.6.0",
+      "passport-local": "^1.0.0",
+      "passport-local-mongoose": "^8.0.0",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+   }
+}
