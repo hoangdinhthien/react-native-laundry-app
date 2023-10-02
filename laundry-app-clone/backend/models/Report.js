@@ -8,6 +8,9 @@ const reportSchema = new Schema({
   },
   status: {
     type: String,
+    default: "Pending",
+    enum: ["Pending", "Resolved", "Rejected"],
+    required: true,
   },
   guestId: {
     type: Schema.Types.ObjectId,

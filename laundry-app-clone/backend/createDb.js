@@ -84,23 +84,43 @@ const addServicesToAccount = (accountId, servicesId) => {
   );
 };
 
-// Add Report to Account
-const addReportToAccount = (accountId, reportId) => {
-  return Account.findByIdAndUpdate(
-    accountId,
+// Add Account to Report
+const addGuestAccountToReport = (accountId, reportId) => {
+  return Report.findByIdAndUpdate(
+    reportId,
     {
-      $push: { "store.reports": reportId }, // Modify this to match your model structure
+      $push: { "guestId": accountId }, // Modify this to match your model structure
+    },
+    { new: true, useFindAndModify: false }
+  );
+};
+// Add Account to Report
+const addSOAccountToReport = (accountId, reportId) => {
+  return Report.findByIdAndUpdate(
+    reportId,
+    {
+      $push: { "storeOwnerId": accountId }, // Modify this to match your model structure
     },
     { new: true, useFindAndModify: false }
   );
 };
 
-// Add Order to Account
-const addOrderToAccount = (accountId, orderId) => {
-  return Account.findByIdAndUpdate(
-    accountId,
+// Add Account to Order
+const addCustAccountToOrder = (orderId, accountId) => {
+  return Order.findByIdAndUpdate(
+    orderId,
     {
-      $push: { "store.orders": orderId }, // Modify this to match your model structure
+      $push: { "customerInfo": accountId }, // Modify this to match your model structure
+    },
+    { new: true, useFindAndModify: false }
+  );
+};
+
+const addSOAccountToOrder = (orderId, accountId) => {
+  return Order.findByIdAndUpdate(
+    orderId,
+    {
+      $push: { "storeOwnerId": accountId }, // Modify this to match your model structure
     },
     { new: true, useFindAndModify: false }
   );
@@ -112,6 +132,38 @@ const addRequestToAccount = (accountId, requestId) => {
     accountId,
     {
       $push: { "store.requests": requestId }, // Modify this to match your model structure
+    },
+    { new: true, useFindAndModify: false }
+  );
+};
+
+// Add Service to Order
+const addServiceToOrder = (orderId, serviceId) => {
+  return Order.findByIdAndUpdate(
+    orderId,
+    {
+      $push: { services: serviceId },
+    },
+    { new: true, useFindAndModify: false }
+  );
+};
+// Add Account to Services
+const addAccountToServices = (accountId, serviceId) => {
+  return Services.updateMany(
+    { _id:  serviceId },
+    {
+      $push: { ownerId: accountId },
+    },
+    { new: true }
+  );
+};
+
+// Add Account to Request
+const addAccountToRequest = (accountId, requestId) => {
+  return Request.findByIdAndUpdate(
+    requestId,
+    {
+      $push: { guestId: accountId },
     },
     { new: true, useFindAndModify: false }
   );
@@ -132,7 +184,36 @@ const run = async function () {
       pickAddress: "123 Main St",
       backAddress: "456 Second St",
       requestId: null,
-      store: null,
+      store: {
+        name: "Washing Store Number1",
+        status: "Active",
+        address: "123 Main Street, Cityville",
+        avatarLink: "https://example.com/avatar/johndoe.jpg",
+        dailyQuantity: 10,
+        services: null,
+      },
+      deleted: false,
+    });
+
+    
+    let account2 = await createAccount({
+      username: "ThongNT",
+      password: "password123",
+      name: "Thong",
+      phoneNumber: "1234567890",
+      email: "thongnt@example.com",
+      role: "user",
+      pickAddress: "123 Main St",
+      backAddress: "456 Second St",
+      requestId: null,
+      store: {
+        name: "THOM Washing",
+        status: "Active",
+        address: "12 Main Street, Cityville",
+        avatarLink: "https://example.com/avatar/johndoe.jpg",
+        dailyQuantity: 10,
+        services: null,
+      },
       deleted: false,
     });
 
@@ -140,19 +221,20 @@ const run = async function () {
       name: "Sample Service",
       price: 50.0,
       description: "This is a sample service.",
-      ownerId: null,
+      ownerId: account2._id,
       deleted: false,
     });
 
     let report = await createReport({
       content: "This is a sample report.",
       status: "pending",
-      guestId: null,
-      storeOwnerId: null,
+      guestId: account._id,
+      storeOwnerId: account._id,
     });
 
     let order = await createOrder({
       customerInfo: account._id,
+      storeOwnerId: account._id,
       status: "processing",
       services: [services._id],
       totalWeight: 5.0,
@@ -162,18 +244,32 @@ const run = async function () {
       deleted: false,
     });
 
+    
+
+    let services2 = await createServices({
+      name: "2th Service",
+      price: 50.0,
+      description: "This is a sample service.",
+      ownerId: account._id,
+      deleted: false,
+    });
+
     let request = await createRequest({
       content: "This is a sample request.",
       status: "open",
-      guestId: null,
-      storeOwnerId: null,
+      guestId: account2._id,
     });
 
     // ADD COLLECTIONS RELATIONSHIPS
-    await addServicesToAccount(account._id, services._id);
-    await addReportToAccount(account._id, report._id);
-    await addOrderToAccount(account._id, order._id);
-    await addRequestToAccount(account._id, request._id);
+    await addGuestAccountToReport(account._id, report._id);
+    await addSOAccountToReport(account._id, report._id);
+    await addCustAccountToOrder(order._id, account._id);
+    await addSOAccountToOrder(order._id, account._id);
+    await addServiceToOrder(order._id, services._id);
+    await addAccountToServices(account2._id, services._id);
+    await addAccountToServices(account._id, services2._id);
+    await addRequestToAccount(account2._id, request._id);
+    await addAccountToRequest(account2._id, request._id);
   } catch (error) {
     console.error("Error:", error);
   }

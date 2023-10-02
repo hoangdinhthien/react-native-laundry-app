@@ -13,6 +13,8 @@ app.use(cors());
 // Import router
 // const chatRouter = require('./routers/chat');
 const orderRouter = require('./routers/Order');
+const accountRouter = require('./routers/Account');
+const reportRouter = require('./routers/Report');
 
 // Import models
 // const Chat = require('./models/chat');
@@ -20,6 +22,8 @@ const orderRouter = require('./routers/Order');
 // Use routers
 
 app.use("/orders", orderRouter)
+app.use("/accounts", accountRouter)
+app.use("/reports", reportRouter)
 
 // passport config
 app.use(passport.initialize());

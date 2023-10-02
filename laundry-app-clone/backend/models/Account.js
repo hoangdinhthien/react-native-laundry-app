@@ -23,6 +23,7 @@ const accountSchema = new Schema({
   },
   role: {
     type: String,
+    enum: ["Guest", "Store Owner", "Admin"],
     required: true,
   },
   pickAddress: {

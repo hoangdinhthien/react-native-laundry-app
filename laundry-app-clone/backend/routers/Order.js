@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const connect = mongoose.connect(dbUrl);
 const Order = require("../models/Order");
+const Services = require("../models/Services");
 
 // Create router
 const orderRouter = express.Router();
@@ -29,6 +30,35 @@ orderRouter
     console.log("GET Order");
     console.log(status);
     console.log(soId);
+
+    // View store owner orders
+    // Input: SOid
+    // Output: list of orders
+    if (soId != undefined) {
+      Order.find({ deleted: false })
+        .then((orders) => {
+          if (orders) {
+            orders.forEach(order => {
+              Services.find({ownerId: soId})
+              .then((orders) => {
+                if (orders) {
+                  res.statusCode = 200;
+                  res.setHeader("Content-Type", "application/json");
+                  res.json(orders);
+                } else {
+                  res.status(404).json({ error: "No orders found" });
+                }
+              })
+            });
+          } else {
+            res.status(404).json({ error: "No orders found" });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).json({ error: "Internal server error" });
+        });
+    }
 
     if (status != undefined) {
       // FILTER ORDERS BY STATUS
